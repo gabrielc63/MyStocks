@@ -1,0 +1,12 @@
+<div class="results-block">
+  <%= render partial: "shared/flash_messages", flash: flash %>
+</div>
+
+<% if @stock %>
+  <br/>
+  <div class="card card-header results-block">
+    <strong>Symbol: </strong> <%= @stock.ticker %>
+    <strong>Name: </strong> <%= @stock.name %>
+    <strong>Price: </strong> <%= @stock.last_price %>
+  </div>
+<% end %>

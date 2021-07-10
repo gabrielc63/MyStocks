@@ -30,6 +30,9 @@ gem 'bootsnap', '>= 1.4.4', require: false
 
 gem 'devise', '~> 4.8'
 gem 'iex-ruby-client'
+gem 'font-awesome-rails'
+gem 'rubocop', '~> 1.18', '>= 1.18.3'
+gem 'rubocop-rails', '~> 2.11', '>= 2.11.2'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
