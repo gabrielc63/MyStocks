@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StocksController < ApplicationController
   def search
     if params[:stock].present?
