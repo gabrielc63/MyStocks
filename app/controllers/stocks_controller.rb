@@ -2,23 +2,27 @@
 
 class StocksController < ApplicationController
   def search
-    if params[:stock].present?
-      @stock = Stock.new_lookup(params[:stock])
-      if @stock
-        respond_to do |format|
-          format.js { render partial: 'users/result' }
-        end
-      else
-        respond_to do |format|
-          flash.now[:alert] = 'Please enter a valid symbol'
-          format.js { render partial: 'users/result' }
-        end
-      end
-    else
+    display_error_message if params[:stock].blank?
+
+    api_stock = FinancialDataService.fetch_name_and_price(params[:stock])
+    if api_stock
+      @stock = Stock.new(ticker: params[:stock],
+                         name: api_stock[:name],
+                         last_price: api_stock[:price])
       respond_to do |format|
-        flash.now[:alert] = 'Please enter a valid symbol'
         format.js { render partial: 'users/result' }
       end
+    else
+      display_error_message
+    end
+  end
+
+  private
+
+  def display_error_message
+    respond_to do |format|
+      flash.now[:alert] = 'Please enter a valid symbol'
+      format.js { render partial: 'users/result' }
     end
   end
 end
