@@ -4,7 +4,7 @@ class StocksController < ApplicationController
   def search
     display_error_message if params[:stock].blank?
 
-    api_stock = FinancialDataService.fetch_name_and_price(params[:stock])
+    api_stock = FinancialDataService.fetch(params[:stock])
     if api_stock
       @stock = Stock.new(ticker: params[:stock],
                          name: api_stock[:name],

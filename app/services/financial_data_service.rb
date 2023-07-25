@@ -4,7 +4,7 @@ class FinancialDataService
     stock.quote.price
   end
 
-  def self.fetch_name_and_price(ticker)
+  def self.fetch(ticker)
     response = client.search keywords: ticker
     stock_found = response.stocks.first
     name = stock_found.name

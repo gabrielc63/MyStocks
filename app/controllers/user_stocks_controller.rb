@@ -1,10 +1,7 @@
 class UserStocksController < ApplicationController
   def create
     stock = Stock.check_db(params[:ticker])
-    if stock.nil?
-      stock = Stock.new_lookup(params[:ticker])
-      stock.save
-    end
+    stock = save_new_stock(params[:ticker]) if stock.nil?
     @user_stock = UserStock.create(user: current_user, stock: stock)
     flash[:notice] = "Stock #{stock.name} was successfully added"
     redirect_to my_portfolio_path
@@ -16,5 +13,14 @@ class UserStocksController < ApplicationController
     user_stock.destroy
     flash[:notice] = "#{stock.ticker} was successfully removed from portfolio"
     redirect_to my_portfolio_path
+  end
+
+  private
+
+  def save_new_stock(ticker)
+    api_stock = FinancialDataService.fetch(ticker)
+    stock = Stock.new(ticker: ticker.upcase, name: api_stock[:name], last_price: api_stock[:price])
+    stock.save
+    stock
   end
 end
