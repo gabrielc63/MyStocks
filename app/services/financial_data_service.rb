@@ -6,6 +6,8 @@ class FinancialDataService
 
   def self.fetch(ticker)
     response = client.search keywords: ticker
+    return {} if response.stocks.empty?
+
     stock_found = response.stocks.first
     name = stock_found.name
     price = stock_found.stock.quote.price
